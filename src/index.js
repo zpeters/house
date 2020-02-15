@@ -1,12 +1,59 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import './index.css'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class Room extends React.Component {
+    constructor(props) {
+        super(props)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+        this.state = {
+            name: props.name,
+            light: props.light
+        }
+    }
+    
+    toggleLight = () => {
+        this.setState((state, props) => {
+            if (this.state.light === "on") {
+                return {
+                    light: "off"
+                }
+            } else {
+                console.log("Turning light on")
+                return {
+                    light: "on"
+                }
+            }
+        })
+    }
+
+    render() {
+        return(
+            <div className="room">
+                <div className="roomName">{this.state.name}</div>
+                <div className={`roomLight ${this.state.light}`}></div>
+                <button className="roomSwitch" onClick={this.toggleLight}>Switch</button>
+            </div>
+        )
+    }
+
+    //render() {{name, light}
+    //return(
+//     <div className="room">
+//         <div className="roomName">{name}</div>
+//         <div className={`roomLight ${light}`}></div>
+//         <button className="roomSwitch">Switch</button>
+//     </div>
+//     )
+// }
+}
+
+const Index = () => 
+    <div>
+        <Room name="Living Room" light="on"/>
+        <Room name="Bed Room" light="on"/>
+        <Room name="Kitchen" light="off"/>
+        <Room name="Garage" light="off"/>
+    </div>
+
+ReactDOM.render(<Index />, document.querySelector('#root'))
